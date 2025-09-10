@@ -19,9 +19,9 @@ Both of them did an excellent job to emulate a virtual network on linux(ubuntu).
 
 ## Initial Challenge
 
-We studied [ONOS](https://opennetworking.org/onos/) SDN controller during our course. The controller was excellent but for some reason it has been dropped and no longer having supports from the community. There are emerging technologies, but still ONOS gives a very in dept knowledge about flow-rules, packet-forwarding, QoS, etc. And for students it is the best. But installing ONOS in different machines(having different CPU architecture) was and still is challenging.
+We studied [ONOS](https://opennetworking.org/onos/) SDN controller during our course. The controller was excellent but for some reason it has been dropped and no longer having supports from the community. There are emerging technologies, but still ONOS gives a very in-depth knowledge about flow-rules, packet-forwarding, QoS, etc. And for students it is the best. But installing ONOS in different machines(having different CPU architecture) was and still is challenging.
 
-So, we are trying to dockerize the whole process so that we can: run linux virtual network topologies, with mininet, using ONOS controller and building ONOS application using Bazel and Maven.
+So, we are trying to dockerize the whole process so that we can: run linux virtual network topologies, with mininet, using ONOS controller and building ONOS application using Bazel and Maven using docker. And the whole process becomes platform independent.
 
 ## If you have a MAC
 
@@ -41,13 +41,14 @@ After that you have to download two additional files which are stored in my `One
 - [onos-image](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EY0jTZw2hPxCkO3q1cUSK60B1EoGKRtX_OQ9d2BQm3j3QA?e=XBtHVP)
 
 So, I guess now you have the images in the same folder of this `github repository`. **Make sure of this, otherwise you will face issues while executing the script**. Your current directory must look like this:
+
 ![directory-image](/images/directory.png)
 
 which means you have all the files and ready to go.
 
 ## Start with the scripts
 
-After cloning the `scripts(.sh)` files should remain `executable`. But to be sure, you can repeat the process again:
+After cloning `scripts(.sh)` files should remain `executable`. But to be sure, you can repeat the process again:
 
 ```bash
 cd 'the git repo directory'
@@ -69,7 +70,7 @@ chmod +x configure-onos.sh
 ./docker-run.sh build
 ```
 
-This command will build a new network bridge withing docker to connect your containers. Now, here I want to explain a few things. Intentionally the network subnet has been separated from our course. For that you have to do a few things differently but trust me it's so simple. I didn't keep it the same subnet of the course because in our course we are using a linux `VM` provided by our professor. Even your colleagues are using that `VM` but you are emulating the whole process in your physical machine and there are chances that you might have used the `IPs` of docker `172.17.0.0/16` subnet for other applications. So a new network bridge `172.28.0.0/16` has been created for this operation and ONOS has been instructed to occupy one IP from here as a host.
+This command will build a new network bridge within docker to connect your containers together. Now, here I want to explain a few things. Intentionally, the network subnet has been separated from our course. For that you have to do a few things differently but trust me it's too simple. I didn't keep the same subnet like our course because in our course we are using a linux `VM` provided by our professor. Even your colleagues are using that `VM` but you are emulating the whole process in your physical machine and there are chances that you might have used the `IPs` of docker `172.17.0.0/16` subnet for other applications. So a new network bridge `172.28.0.0/16` has been created for this operation and ONOS has been instructed to occupy one IP from there as a host.
 
 If your build is successful you must see something like this:
 
@@ -79,7 +80,7 @@ If your build is successful you must see something like this:
 
 ## Next step is to create the Mininet Container
 
-For ONOS you just have to start the container because it doesn't come with an iterative shell or bash. The whole image is wrapped it binary files required to run the engine. For bazel and maven built, we have a different pipeline.
+For ONOS you just have to start the container because it doesn't come with an iterative shell or bash. The whole image is wrapped with necessary files required to run the engine. For bazel and maven built, we have a different pipeline(upcoming).
 
 ```bash
 ./docker-run.sh run_mininet
@@ -128,18 +129,18 @@ Will create an `ONOS` container and onos inside it. I didn't run the container i
 
 ![docker-build](/images/onos-started.png)
 
-`ONOS GUI is running inside docker: 172.28.0.11:8181` and `OpenFlow is running on port 6653`. Both of the ports are bound to your physical machine's port: 8181, 6653. The container run may fail if any of these ports are occupied by some other applications in your machine. So, do your thing and check if the ports are free in your machine and then try again(if you ran into any error).
+`ONOS GUI is running inside docker: 172.28.0.11:8181` and `OpenFlow is running on port 6653` and `ONOS CLI on 8101`. Both of the ports are bound to your physical machine's port: 8181, 6653, 8101. The container run may fail if any of these ports are occupied by some other applications in your machine. So, do your thing and check if the ports are free in your machine and then try again(if you ran into any error).
 
-`You must never do anything else in terminal except checking the logs(if required)`. This one will keep running the server. 
+`You must never do anything else in terminal except checking the logs(if required)`. This one will keep running the server.
 
 The next step is to `activate` the `ONOS Applications` for `openFlow`, `arp` and `forwarding`. For that you already have a `script` inside the directory. So, open a new terminal and execute the script:
 
 ```bash
 # from the git-repo directory
-./configure-onos-sh
+./configure-onos.sh
 ```
 
-Since we have bound `ONOS` with our local machine this `API` calls are slightly different than the ones' the professor might be executing. But it's obvious. If your API call is successful:
+Since we have bound `ONOS` with our local machine this `API` calls are slightly different than the ones' our professor might be executing. But it's obvious. If your API call is successful:
 
 ![docker-build](/images/onos-api-calls.png)
 
@@ -174,7 +175,7 @@ Must give you a topology like this:
 
 ![docker-build](/images/mininet-controlled-1.png)
 
-Now! Don't get frightened by seeing the controller cannot be connected. It happens because onos is running in another container on top of your own operating system. Since there is no dedicated kernel inside the docker container, mininet(which is using an ubuntu kernel) cannot communicate directly with onos at OS level. But we have specified the controller's IP and port, thus the topology will for sure communicate with the controller if everything is fine. To be sure let's execute this command from the `mininet shell`:
+Now! Don't get frightened by seeing the controller cannot be contacted. It happens because onos is running in another container on top of your own operating system. Since there is no dedicated kernel inside the docker container, mininet(which is using an ubuntu kernel) cannot communicate directly with onos at OS level. But we have specified the controller's IP and port, thus the topology will for sure communicate with the controller if everything is fine. To be sure let's execute this command from the `mininet shell`:
 
 ```bash
 mininet>sh ovs-vsctl show | grep -A2 Controller
@@ -242,7 +243,7 @@ So, execute whatever command(route, arp, traceroute, infconfig, etc.) you need i
 
 Yes, that's the tricky part but don't worry we have that covered as well. Here are the steps:
 
-- make sure one shell is running with mininet shell
+- make sure one shell is running with mininet
 - open another shell
 
 ```bash
@@ -273,6 +274,6 @@ Now run `iperf` from the namespaces:
 
 ![docker-build](/images/iperf-client.png)
 
-It also works with the bandwidth limiting, give it a try!
+It also works with limited bandwidth, give it a try!
 
-That's all from me, :) I hope this repo helps. The next step is to build another pipeline for bazel, maven which I still don't I would be able to accomplish or no! But, I am very hopeful. Happy Networking!
+That's all from me, :) I hope this repo helps. The next step is to build another container for bazel and maven which I still don't I would be able to accomplish or no! But, I am very hopeful. Happy Networking!
