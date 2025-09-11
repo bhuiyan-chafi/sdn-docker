@@ -26,9 +26,10 @@ We studied [ONOS](https://opennetworking.org/onos/) SDN controller during our co
 
 So, we are trying to dockerize the whole process so that we can: run linux virtual network topologies, with mininet, using ONOS controller and building ONOS application using Bazel and Maven using docker. And the whole process becomes platform independent.
 
-## If you have a MAC
+## Machines I have tested the repo with
 
-Yes, the main target was the students with MAC machines. Even this repo was built and tested in a MAC Air M2, 8GB, Sequoia 15.6.1.
+- MacBook Air M2, 8GB, OS: Squoia 15.6
+- Intel i3 7th generation, 12GB, Ubuntu 22.04
 
 ## Starting the Process
 
