@@ -112,7 +112,7 @@ clean() {
     docker stop $ONOS_CONTAINER 
     docker rm $ONOS_CONTAINER 
     echo "Mininet Container removed"
-    sleep2
+    sleep 2
     # Remove onos image
     docker rmi $ONOS_IMAGE
     echo "ONOS Image removed"

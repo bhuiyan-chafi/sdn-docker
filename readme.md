@@ -40,8 +40,22 @@ git clone https://github.com/bhuiyan-chafi/sdn-docker.git
 
 After that you have to download two additional files which are stored in my `OneDrive`. Why? Because the images are pretty big to be dumped in github, github is free but doesn't mean we can put files of MBs, haha! So here are the files(if you face any error, you can send me an email):
 
-- [mininet-image](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EUGaBEfN8WdOueH1SmF8SQYB3Bl_VgczgLRvH0inDB1PuA?e=PhVdLb)
+### Download the image based on your CPU architecture
+
+- [mininet-image-appleSilicon](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EUGaBEfN8WdOueH1SmF8SQYB3Bl_VgczgLRvH0inDB1PuA?e=PhVdLb)
+- [mininet-image-x86_64](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/ES0SeKgaErRAoYCOLu6ZEikBiQPfqLTITngPro9gjvR5Uw?e=XFp16g)
 - [onos-image](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EY0jTZw2hPxCkO3q1cUSK60B1EoGKRtX_OQ9d2BQm3j3QA?e=XBtHVP)
+
+### If you have downloaded the `mininet-image-x86_64`
+
+You have to perform one additional step, to rename the image so that it can match with the script.
+
+```bash
+# from your git-repo directory
+# after your have copied the downloaded mininet image here
+# from linux terminal
+mv mininet-standalone-x86_64.tar mininet-standalone.tar
+```
 
 So, I guess now you have the images in the same folder of this `github repository`. **Make sure of this, otherwise you will face issues while executing the script**. Your current directory must look like this:
 
