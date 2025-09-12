@@ -74,7 +74,8 @@ I have provided a script that does is exactly the same thing what `onos-create-a
 
 ```bash
 # alessio@75ff53d0f805:~/work$
-cp create_onos_app.sh apps/ # because apps will be created in the apps folder
+mkdir apps
+cp create_onos_app.sh apps/ # because apps should be created in the apps folder
 cd apps # go to the directory
 ls # make sure you have the 'create_onos_app.sh' file inside
 ./create_onos_app.sh app org.name name-app 1.0-SNAPSHOT org.name.app
