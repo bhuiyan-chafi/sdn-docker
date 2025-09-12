@@ -12,7 +12,7 @@ This was our final step throughout the course. We still can do a lot of things w
 Basically you have two options to build the `Docker Image`:
 
 - building from scratch using `Dockerfile` and `docker build . . . .` commands
-- or you can simply download the [pre-built-image](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EYIRw5OwjXFLmcRly6AmRqkBe_paKqLZahfaq6ZMSZGYnw?e=olfmiJ) from here and load it
+- or you can simply download the [pre-built-image-arm64](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EYIRw5OwjXFLmcRly6AmRqkBe_paKqLZahfaq6ZMSZGYnw?e=olfmiJ) or [pre-built-image-x86_64](https://unipiit-my.sharepoint.com/:u:/g/personal/a_bhuiyan_studenti_unipi_it/EYsfQQ0FlbBFpwMNcKANy2kBvcdvEPdGgG_UN8gbJ9Vagg?e=U8bIx4) from here and load it
 
 ### Using `Dockerfile` and `docker build`
 
@@ -72,8 +72,24 @@ The `ONOS` source-code is also provided here in this directory `/work/onos` in c
 
 I have provided a script that does exactly the same thing what `onos-create-app` does. But we will execute this as a script like before, because our `env` variables are not set like we did in the lecture. If you want, maybe you can give it a try. But, for now it serves the purpose. Let's start:
 
+From `MAC` machines:
+
 ```bash
 # alessio@75ff53d0f805:~/work$
+mkdir apps
+cp create_onos_app.sh apps/ # because apps should be created inside the apps folder
+cd apps # go to the directory
+ls # make sure you have the 'create_onos_app.sh' file inside
+./create_onos_app.sh app org.name name-app 1.0-SNAPSHOT org.name.app
+# will start creating your app
+```
+
+From `Other` machines:(commands must be executed with `sudo`)
+
+```bash
+# alessio@75ff53d0f805:~/work$
+sudo su # gives root access for the whole session
+# password: onos
 mkdir apps
 cp create_onos_app.sh apps/ # because apps should be created inside the apps folder
 cd apps # go to the directory
@@ -124,6 +140,7 @@ and you have a list with indexes to choose for your architecture. Basically thes
 Now it's time to build our app using maven:
 
 ```bash
+# make sure you still have root access
 # go the apps/name-app directory
 cd apps/name-app
 # execute the mvn install command
