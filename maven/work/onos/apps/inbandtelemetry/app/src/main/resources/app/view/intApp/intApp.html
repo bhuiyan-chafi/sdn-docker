@@ -1,0 +1,157 @@
+<!-- partial HTML -->
+<div id="ov-int-app-main">
+    <div class="tabular-header">
+        <h2 style="font-weight: bold">In-band Network Telemetry (INT) Control
+            Application</h2>
+    </div>
+
+    <hr>
+
+    <div class="tabular-header">
+        <h2>
+            INT Watchlist Rules
+        </h2>
+
+        <div>
+            <div class="input-panel">
+                <h3>
+                    Create New Watchlist Rule
+                </h3>
+                <div>
+                    <label>
+                        <input placeholder="Source IP prefix" type="text"
+                               pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$"
+                               ng-model="ip4SrcPrefix">
+                    </label>
+                    <label>
+                        <input placeholder="Dest IP prefix" type="text"
+                               pattern="^([0-9]{1,3}\.){3}[0-9]{1,3}(\/[0-9]{1,2})?$"
+                               ng-model="ip4DstPrefix">
+                    </label>
+                    <label>
+                        <input placeholder="Source port" type="text"
+                               pattern="^[0-9]{0,5}$"
+                               ng-model="l4SrcPort">
+                    </label>
+                    <label>
+                        <input placeholder="Destination port" type="text"
+                               pattern="^[0-9]{0,5}$"
+                               ng-model="l4DstPort">
+                    </label>
+                    <label>
+                        Protocol
+                        <select name="protocol" ng-model="protocol">
+                            <option value=""></option>
+                            <option value="TCP">TCP</option>
+                            <option value="UDP">UDP</option>
+                        </select>
+                    </label>
+                    <label>
+                        Telemetry Mode
+                        <select name="telemetryMode" ng-model="telemetryMode">
+                            <option selected value="POSTCARD">Postcard (INT-XD)</option>
+                            <option value="INBAND_TELEMETRY">Embedded Data (INT-MD)</option>
+                        </select>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" ng-model="metaSwId">
+                        Switch ID
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaPortId">
+                        Port IDs
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaHopLatency">
+                        Hop Latency
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaQOccupancy">
+                        Queue Occupancy
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaIngressTstamp">
+                        Ingress Timestamp
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaEgressTstamp">
+                        Egress Timestamp
+                    </label>
+                    <label>
+                        <input type="checkbox" ng-model="metaEgressTx">
+                        Egress Port Tx Utilization
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-panel">
+            <div class="int-app-button" ng-click="sendIntIntentString()">
+                Apply Watchlist Rule
+            </div>
+        </div>
+        <div>
+            <p class="int-intent-add-msg">
+                {{intAddMsg}}
+            </p>
+        </div>
+    </div>
+    <!-- ++++++++++++++++++++++++++++++++++++++++++++++++++++++++ -->
+    <div class='int-app-main-intents'>
+        <div class="tabular-header">
+            <h2>Installed Watchlist Rules ({{tableData.length}} total)</h2>
+            <div class="ctrl-btns">
+                <div class="refresh" ng-class="{active: autoRefresh}"
+                     icon icon-id="refresh" icon-size="36"
+                     tooltip tt-msg="autoRefreshTip"
+                     ng-click="toggleRefresh()">
+                </div>
+
+                <!-- tooltip tt-msg="uninstallTip" -->
+                <div icon icon-size="42" icon-id="garbage"
+                     ng-click="delIntIntent()"
+                     ng-class="{active: ctrlBtnState.selection}">
+                </div>
+            </div>
+        </div>
+
+        <div class="summary-list" onos-table-resize>
+
+            <div class="table-header" onos-sortable-header>
+                <table>
+                    <tr>
+                        <td colId="id" sortable>ID</td>
+                        <td colId="srcAddr" sortable>Src Address</td>
+                        <td colId="dstAddr" sortable>Dst Address</td>
+                        <td colId="srcPort" sortable>Src Port</td>
+                        <td colId="dstPort" sortable>Dst Port</td>
+                        <td colId="protocol" sortable>Protocol</td>
+                        <td colId="metadata" sortable>Metadata</td>
+                        <td colId="telemetryMode" sortable>Telemetry Mode</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="table-body">
+                <table>
+                    <tr ng-repeat="item in tableData track by $index"
+                        ng-click="selectCallback($event, item)"
+                        ng-class="{selected: item.id === selId}">
+                        <td>{{item.id}}</td>
+                        <td>{{item.srcAddr}}</td>
+                        <td>{{item.dstAddr}}</td>
+                        <td>{{item.srcPort}}</td>
+                        <td>{{item.dstPort}}</td>
+                        <td>{{item.protocol}}</td>
+                        <td>{{item.metadata}}</td>
+                        <td>{{item.telemetryMode}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- +++++++++++++++++++++ -->

@@ -1,0 +1,22 @@
+{
+  "networkId": "network-1",
+  "name": "network-1",
+  "type": "FLAT",
+  "mtu": 1500,
+  "cidr": "10.10.0.0/24",
+  "gatewayIp": "10.10.0.1",
+  "defaultRoute": true,
+  "ipPool": {
+    "start": "10.10.10.100",
+    "end": "10.10.10.200"
+  },
+  "hostRoutes": [
+    {
+      "destination": "10.10.10.0/24",
+      "nexthop": "10.10.10.1"
+    }
+  ],
+  "dnses": [
+    "8.8.8.8"
+  ]
+}

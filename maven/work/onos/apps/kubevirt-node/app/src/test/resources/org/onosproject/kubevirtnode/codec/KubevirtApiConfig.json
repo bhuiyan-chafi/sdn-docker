@@ -1,0 +1,14 @@
+{
+  "scheme" : "HTTPS",
+  "ipAddress" : "10.134.34.223",
+  "port" : 6443,
+  "token": "token",
+  "caCertData": "caCertData",
+  "clientCertData": "clientCertData",
+  "clientKeyData": "clientKeyData",
+  "serviceFqdn": "kubevirt.edgestack.svc.cluster.local",
+  "apiServerFqdn": "kubernetes.default.svc.cluster.local",
+  "controllerIp": "127.0.0.1",
+  "datacenterId": "BD",
+  "clusterId": "BD-MEH-CT01"
+}

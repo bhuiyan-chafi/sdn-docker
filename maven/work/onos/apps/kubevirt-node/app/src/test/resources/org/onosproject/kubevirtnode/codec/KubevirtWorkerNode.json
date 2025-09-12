@@ -1,0 +1,21 @@
+{
+  "hostname": "worker-01",
+  "type": "WORKER",
+  "managementIp": "172.16.130.4",
+  "dataIp": "172.16.130.4",
+  "integrationBridge": "of:00000000000000a1",
+  "tunnelBridge": "of:00000000000000a2",
+  "phyIntfs": [
+    {
+      "network": "mgmtnetwork",
+      "intf": "eth3",
+      "physBridgeId": "of:00000000000000a3"
+
+    },
+    {
+      "network": "oamnetwork",
+      "intf": "eth4",
+      "physBridgeId": "of:00000000000000a4"
+    }
+  ]
+}

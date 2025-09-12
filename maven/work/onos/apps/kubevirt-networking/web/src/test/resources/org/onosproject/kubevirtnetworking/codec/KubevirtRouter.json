@@ -1,0 +1,18 @@
+{
+  "name": "router-1",
+  "description": "Example Virtual Router",
+  "enableSnat": true,
+  "mac": "11:22:33:44:55:66",
+  "external": {
+    "ip": "192.168.10.5",
+    "network": "external-network"
+  },
+  "internal": [
+    "vxlan-network-1",
+    "vxlan-network-2"
+  ],
+  "peerRouter": {
+    "ip": "192.168.10.1"
+  },
+  "gateway": "gatewayNode"
+}
