@@ -1,0 +1,2 @@
+# Assign an IP address in the 192.168.1.0/24 subnet
+ip addr add 192.168.1.1/24 dev eth0
