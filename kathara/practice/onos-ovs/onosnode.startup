@@ -27,9 +27,8 @@ if [ -f /tmp/.onos_wait_pending ]; then
 
     echo ""
     echo "Activating applications..."
-    curl -sSL --user onos:rocks -X POST \
-        http://localhost:8181/onos/v1/applications/org.onosproject.openflow/active \
-        && echo "  [OK] openflow"
+    # NOTE: OpenFlow provider is compiled into the core of onos-b5g-open
+    # and auto-activates on startup — no separate app activation needed.
     curl -sSL --user onos:rocks -X POST \
         http://localhost:8181/onos/v1/applications/org.onosproject.proxyarp/active \
         && echo "  [OK] proxyarp"
