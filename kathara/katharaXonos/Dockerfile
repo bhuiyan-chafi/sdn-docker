@@ -30,6 +30,12 @@ ENV ONOS_USER=onos
 # Add ONOS profile to bashrc so new interactive terminals have the 'onos' and 'ok' commands
 RUN echo "source \$ONOS_ROOT/tools/dev/bash_profile" >> /root/.bashrc
 
+# Fix: The 'onos' CLI script (tools/test/bin/onos) runs:
+#   ssh -p 8101 $OCI "$@"
+# without specifying a user, so SSH defaults to 'root'. This SSH config
+# ensures port-8101 connections automatically use the 'onos' user.
+RUN mkdir -p /root/.ssh && echo "Host *\n  Port 8101\n  User onos" > /root/.ssh/config && chmod 600 /root/.ssh/config
+
 # Clone the custom ONOS repository (dev branch)
 RUN git clone -b dev https://github.com/bhuiyan-chafi/onos-b5g-open.git $ONOS_ROOT
 
