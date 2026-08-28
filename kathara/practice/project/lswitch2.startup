@@ -1,0 +1,33 @@
+# Assign the control plane IP address (Domain A)
+# Used for ONOS management and for ping tests from onosnode / parentswitch
+ip addr add 131.114.54.76/24 dev eth0
+
+# Start the Open vSwitch service
+/etc/init.d/openvswitch-switch start
+
+# Create the OVS bridge and point it to the ONOS controller (via Domain A)
+ovs-vsctl add-br br0
+ovs-vsctl set-controller br0 tcp:131.114.54.73:6653
+
+# Add the data plane port (Domain C — physical link to parentswitch)
+ovs-vsctl add-port br0 eth1
+
+# Create an OVS internal port for the 192.168.2.0/24 uplink subnet.
+# This gives lswitch2 an IP on the same subnet as parentswitch's gw-c (192.168.2.30),
+# enabling data-plane reachability between the two switches.
+ovs-vsctl add-port br0 uplink -- set interface uplink type=internal
+ip link set uplink up
+ip addr add 192.168.2.40/24 dev uplink
+
+# Force OpenFlow 1.3 and 1.4 compatibility (required by modern ONOS)
+ovs-vsctl set bridge br0 protocols=OpenFlow13,OpenFlow14
+
+# Standalone fail mode: OVS acts as a normal learning switch if controller is lost.
+ovs-vsctl set bridge br0 fail_mode=standalone
+
+# --- ONOS Bypass Daemon ---
+# The default ONOS 'fwd' app does not correctly bridge between OVS internal ports
+# and VLAN access ports. It also aggressively wipes unknown flows.
+# This daemon continuously re-adds a priority NORMAL rule to bypass ONOS for local
+# forwarding, while allowing the switch to remain connected so it shows in the GUI.
+nohup bash -c 'while true; do ovs-ofctl add-flow br0 "priority=50000,actions=NORMAL" -O OpenFlow13 2>/dev/null; sleep 1; done' >/dev/null 2>&1 &

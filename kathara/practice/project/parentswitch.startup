@@ -1,0 +1,34 @@
+# Assign the control plane IP address (Domain A)
+ip addr add 131.114.54.74/24 dev eth0
+
+# Start the Open vSwitch service
+/etc/init.d/openvswitch-switch start
+
+# Create the OVS bridge and point it to the ONOS controller
+ovs-vsctl add-br br0
+ovs-vsctl set-controller br0 tcp:131.114.54.73:6653
+
+# Add the data plane trunk ports (one per downstream domain)
+ovs-vsctl add-port br0 eth1   # Domain B — physical link to lswitch1
+ovs-vsctl add-port br0 eth2   # Domain C — physical link to lswitch2
+
+# Create OVS internal ports so parentswitch has IPs on both data-plane subnets.
+# This is the "two subnets on the same switch" configuration.
+# gw-b = gateway for the 192.168.1.0/24 side (toward lswitch1)
+# gw-c = gateway for the 192.168.2.0/24 side (toward lswitch2)
+ovs-vsctl add-port br0 gw-b -- set interface gw-b type=internal
+ovs-vsctl add-port br0 gw-c -- set interface gw-c type=internal
+
+ip link set gw-b up
+ip link set gw-c up
+ip addr add 192.168.1.10/24 dev gw-b
+ip addr add 192.168.2.30/24 dev gw-c
+
+# Enable IP forwarding so parentswitch can route between the two subnets
+sysctl -w net.ipv4.ip_forward=1
+
+# Force OpenFlow 1.3 and 1.4 compatibility (required by modern ONOS)
+ovs-vsctl set bridge br0 protocols=OpenFlow13,OpenFlow14
+
+# Standalone fail mode: OVS acts as a normal learning switch for unmatched traffic.
+ovs-vsctl set bridge br0 fail_mode=standalone

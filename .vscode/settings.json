@@ -1,5 +1,4 @@
 {
-    "markdown.validate.enabled": true,
     "files.associations": {
         "*.startup": "shellscript"
     }

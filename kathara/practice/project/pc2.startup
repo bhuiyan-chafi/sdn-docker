@@ -1,0 +1,9 @@
+# PC2 — vlan 200, lswitch1 LAN
+# IP in the 10.10.1.0/24 subnet; the switch access port tags traffic as vlan 200
+ip addr add 10.10.1.3/24 dev eth0
+
+# No default gateway configured intentionally:
+# PC2 can only reach hosts in the local 10.10.1.0/24 subnet (same VLAN).
+# The management network (131.114.54.0/24) is unreachable from here.
+# Note: even though PC1 is in the same IP subnet, VLAN isolation prevents
+# direct communication between PC1 (vlan 100) and PC2 (vlan 200).

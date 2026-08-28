@@ -1,0 +1,7 @@
+# PC1 — vlan 100, lswitch1 LAN
+# IP in the 10.10.1.0/24 subnet; the switch access port tags traffic as vlan 100
+ip addr add 10.10.1.2/24 dev eth0
+
+# No default gateway configured intentionally:
+# PC1 can only reach hosts in the local 10.10.1.0/24 subnet (same VLAN).
+# The management network (131.114.54.0/24) is unreachable from here.
