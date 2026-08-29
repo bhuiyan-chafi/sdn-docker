@@ -1,0 +1,7 @@
+# -----------------------------------------------------------------------------
+# PC1 Startup Script (Connected to Sant'Anna)
+# -----------------------------------------------------------------------------
+# Configure IP address on the 192.168.1.0/24 subnet
+ifconfig eth0 192.168.1.10 netmask 255.255.255.0 up
+
+# (No default gateway needed since everything is in one subnet)

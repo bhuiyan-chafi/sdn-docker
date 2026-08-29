@@ -1,0 +1,9 @@
+# -----------------------------------------------------------------------------
+# PC1 Startup Script (Connected to Sant'Anna)
+# -----------------------------------------------------------------------------
+# Configure IP address on the 192.168.1.0/24 subnet
+ifconfig eth0 192.168.1.10 netmask 255.255.255.0 up
+
+# Configure the default gateway for routing outside the local subnet.
+# Note: The gateway IP will be assumed by the ONOS Segment Routing system.
+route add default gw 192.168.1.254

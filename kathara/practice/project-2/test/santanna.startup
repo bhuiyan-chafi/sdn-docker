@@ -1,0 +1,34 @@
+# -----------------------------------------------------------------------------
+# Sant'Anna Switch Startup Script
+# -----------------------------------------------------------------------------
+# 1. Control Plane Configuration (Strict Isolation)
+# Connect to the Management Collision Domain (MGT) using eth0.
+ifconfig eth0 131.114.54.11 netmask 255.255.255.0 up
+
+# Start the Open vSwitch service
+/etc/init.d/openvswitch-switch start
+
+# 2. Data Plane Configuration
+# Create the internal OVS bridge for the Data Plane
+ovs-vsctl add-br br0
+
+# Add Data Plane ports to the bridge
+# eth1: Connection to UniPI core switch
+ovs-vsctl add-port br0 eth1
+# eth2: Connection to local host PC1 (Subnet: 192.168.1.0/24)
+ovs-vsctl add-port br0 eth2
+
+# Bring up Data Plane interfaces
+ifconfig eth1 up
+ifconfig eth2 up
+ifconfig br0 192.168.1.1 netmask 255.255.255.0 up
+
+# 3. OpenFlow Configuration
+# Point the switch to the ONOS controller's management IP
+ovs-vsctl set-controller br0 tcp:131.114.54.2:6653
+
+# Enforce OpenFlow 1.3 protocol
+ovs-vsctl set bridge br0 protocols=OpenFlow13
+
+# Note: No static routing configured for data plane subnets.
+# Routing will be handled dynamically by ONOS Segment Routing (Trellis).
