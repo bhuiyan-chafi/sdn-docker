@@ -21,7 +21,7 @@ ovs-vsctl add-port br0 eth2
 # Bring up Data Plane interfaces
 ifconfig eth1 up
 ifconfig eth2 up
-ifconfig br0 192.168.1.1 netmask 255.255.255.0 up
+ifconfig br0 up
 
 # 3. OpenFlow Configuration
 # Point the switch to the ONOS controller's management IP
