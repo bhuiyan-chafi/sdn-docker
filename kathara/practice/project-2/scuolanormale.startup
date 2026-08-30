@@ -23,6 +23,9 @@ ifconfig eth1 up
 ifconfig eth2 up
 ifconfig br0 192.168.2.1 netmask 255.255.255.0 up
 
+# Enable IP forwarding to allow routing
+sysctl -w net.ipv4.ip_forward=1
+
 # 3. OpenFlow Configuration
 # Point the switch to the ONOS controller's management IP
 ovs-vsctl set-controller br0 tcp:131.114.54.2:6653
@@ -35,4 +38,4 @@ ovs-vsctl set bridge br0 protocols=OpenFlow13
 
 # Add manual flow to allow the switch to ping and be pinged on its local IP
 # (Sleep to ensure ONOS has connected and wiped initial flows first)
-(sleep 15 && MAC=$(cat /sys/class/net/br0/address) && ovs-ofctl add-flow br0 -O OpenFlow13 "priority=50000,dl_dst=$MAC,actions=LOCAL") &
+#(sleep 15 && MAC=$(cat /sys/class/net/br0/address) && ovs-ofctl add-flow br0 -O OpenFlow13 "priority=50000,dl_dst=$MAC,actions=LOCAL") &
