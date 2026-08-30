@@ -19,4 +19,4 @@ python3 -m kathara --version
 
 Imagine you have two PCs and you want to connect them using an ethernet cable. Then two IP addresses will be assigned to them for communication. The IP addresses will be from same sub-network.
 
-The necessary instructions will be found [here](./two-host/README.md).
+The necessary instructions will be found [here](./two-hosts/README.md).
