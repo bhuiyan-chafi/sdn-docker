@@ -1,8 +1,8 @@
 # Assign the control plane IP address
 ip addr add 192.168.1.1/24 dev eth0
 
-# Launch ONOS in a detached screen session.
-screen -dmS onos bash -c '/usr/local/bin/start-onos >/var/log/onos.log 2>&1'
+# Launch ONOS in a detached screen session with desired apps auto-activated.
+screen -dmS onos bash -c 'export ONOS_APPS="drivers,openflow,gui2,fwd,proxyarp" && /usr/local/bin/start-onos >/var/log/onos.log 2>&1'
 
 # --- Inject a one-shot wait script into .bashrc ---
 # Kathara has a timeout on .startup scripts: if they block too long it
@@ -27,14 +27,15 @@ if [ -f /tmp/.onos_wait_pending ]; then
 
     echo ""
     echo "Activating applications..."
-    # NOTE: OpenFlow provider is compiled into the core of onos-b5g-open
-    # and auto-activates on startup — no separate app activation needed.
-    curl -sSL --user onos:rocks -X POST \
-        http://localhost:8181/onos/v1/applications/org.onosproject.proxyarp/active \
-        && echo "  [OK] proxyarp"
-    curl -sSL --user onos:rocks -X POST \
-        http://localhost:8181/onos/v1/applications/org.onosproject.fwd/active \
-        && echo "  [OK] fwd"
+    # Retry activation until ONOS application manager finishes loading
+    # application descriptors from disk and activates them.
+    for app in org.onosproject.proxyarp org.onosproject.fwd; do
+        while ! curl -sSf --user onos:rocks -X POST \
+            "http://localhost:8181/onos/v1/applications/${app}/active" >/dev/null 2>&1; do
+            sleep 1
+        done
+        echo "  [OK] ${app#org.onosproject.}"
+    done
 
     echo ""
     echo "============================================"

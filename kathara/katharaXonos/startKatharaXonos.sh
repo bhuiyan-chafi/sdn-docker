@@ -9,7 +9,7 @@ usage() {
     echo ""
     echo "Usage: ./startKatharaXonos.sh [build|run]"
     echo ""
-    echo "  build   Build the kathara/onos-b5g Docker image from the Dockerfile"
+    echo "  build   Build the kathara/onos-classic Docker image from the Dockerfile"
     echo "  run     Clean any existing lab and start the Kathara lab (image must exist)"
     echo ""
     exit 1
@@ -21,12 +21,12 @@ usage() {
 if [ "$1" = "build" ]; then
     echo ""
     echo "============================================"
-    echo " Building kathara/onos-b5g Docker image..."
+    echo " Building kathara/onos-classic Docker image..."
     echo " (This will take several minutes)"
     echo "============================================"
     echo ""
 
-    docker build -t kathara/onos-b5g "$SCRIPT_DIR" --no-cache
+    docker build -t kathara/onos-classic "$SCRIPT_DIR" --no-cache
 
     echo ""
     echo "============================================"
@@ -37,8 +37,8 @@ if [ "$1" = "build" ]; then
 # ─── Run ──────────────────────────────────────────────────────────────────────
 elif [ "$1" = "run" ]; then
     # Verify the image exists before proceeding
-    if ! docker image inspect kathara/onos-b5g > /dev/null 2>&1; then
-        echo "[ERROR] Image 'kathara/onos-b5g' not found."
+    if ! docker image inspect kathara/onos-classic > /dev/null 2>&1; then
+        echo "[ERROR] Image 'kathara/onos-classic' not found."
         echo "        Please run './startKatharaXonos.sh build' first."
         exit 1
     fi
