@@ -4,6 +4,12 @@ This tutorial explains how we can create a standalone image featuring `Kathara` 
 
 > **Note:** There is an automated script that will execute all these steps in one shot. If you are using this for coursework, you can also use that script.
 
+## Get it from Docker Hub
+
+```bash
+docker pull chafiullah/kathara-onos-classic
+```
+
 ## Create from Scratch
 
 Run the following command to build the image from scratch:
