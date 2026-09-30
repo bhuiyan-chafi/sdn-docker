@@ -108,6 +108,14 @@ Once the image is built, test the following scenarios to ensure everything is wo
 
 ## For the Lab
 
+Make sure you have cloned this repository:
+
+```bash
+git clone https://github.com/bhuiyan-chafi/sdn-docker.git
+```
+
+otherwise the necessary files will be missing and the LAB wont be compiled.
+
 1. **Setting up Kathará:**
    - Set up `Kathará` by following these [steps](../practice/README.md).
 
